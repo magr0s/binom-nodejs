@@ -1,0 +1,12 @@
+{
+  "name": "binom-nodejs",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "author": "Oleksandr Krokhmalnyi <magr0s.ak@gmail.com>",
+  "keywords": [
+    "binom",
+    "binom api",
+    "nodejs"
+  ]
+}
