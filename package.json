@@ -8,5 +8,8 @@
     "binom",
     "binom api",
     "nodejs"
-  ]
+  ],
+  "dependencies": {
+    "node-fetch-npm": "^2.0.3"
+  }
 }
