@@ -57,7 +57,19 @@ class BinomConstants {
   }
 
   static dates = {
-    customDate: 12
+    all: 9,
+    customDate: 12,
+    customTime: 10,
+    last2day: 13,
+    last3day: 14,
+    last7day: 3,
+    last14days: 4,
+    lastYear: 8,
+    month: 5,
+    today: 1,
+    week: 11,
+    year: 7,
+    yesterday: 2
   }
 }
 
