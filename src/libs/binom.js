@@ -1,10 +1,18 @@
 const fetch = require('node-fetch-npm')
 const querystring = require('querystring')
 
-const { DATES } = require('./constants')
+const BinomConstants = require('./constants')
 
 class Binom {
   constructor (apiURL, apiKey) {
+    if (typeof (apiURL) !== 'string' || !apiURL) {
+      throw new Error('The API URL is incorrect.')
+    }
+
+    if (typeof (apiKey) !== 'string' || !apiKey) {
+      throw new Error('The API key is incorrect.')
+    }
+
     this.apiURL = apiURL
     this.apiKey = apiKey
   }
@@ -12,7 +20,7 @@ class Binom {
   /**
    * Get a campaign report
    * @param {object} params
-   * @param {string|array|number} params.camps
+   * @param {string|number} params.camps
    * @param {array} params.groups
    * @param {string|number} params.date
    * @param {array} params.dateRange
@@ -27,37 +35,40 @@ class Binom {
       ...props
     } = params
 
-    if (!camps) {
-      throw new Error('Camps cannot be empty.')
+    if (
+      (typeof (camps) !== 'string' || typeof (camps) !== 'number') &&
+      !camps
+    ) {
+      throw new Error('The camps is incorrect.')
     }
 
-    if (Array.isArray(dateRange) && dateRange.length > 2) {
-      throw new Error('Incorrect dateRange.')
+    if (
+      Array.isArray(dateRange) &&
+      (!dateRange.length || dateRange.length > 2)) {
+      throw new Error('The dateRange is incorrect.')
     }
 
     const queryParams = {
       page: 'Stats',
-      camps: Array.isArray(camps) ? camps.join(',') : camps,
+      camps,
       api_key: this.apiKey
     }
 
     if (Array.isArray(groups)) {
-      Object.assign(
-        queryParams,
-        groups.reduce((obj, group, i) => {
-          obj[`group${++i}`] = group
+      groups.slice(0, 3)
+          .reduce((obj, group, i) => {
+            obj[`group${++i}`] = group
 
-          return obj
-        }, {})
-      )
+            return obj
+          }, queryParams)
     }
 
     if (dateRange) {
-      const dateParams = {
-        date: DATES.CUSTOM_DATE
-      }
-
       const [ dateS, dateE ] = dateRange
+      
+      const dateParams = {
+        date: BinomConstants.dates.customDate
+      }
 
       dateS && Object.assign(dateParams, { date_s: dateS })
       dateE && Object.assign(dateParams, { date_e: dateE })
