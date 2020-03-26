@@ -1,12 +1,11 @@
-const DATES = {
-  CUSTOM_DATE: 12
+class BinomConstants {
+  static groups = {
+    campaigns: 33
+  }
+
+  static dates = {
+    customDate: 12
+  }
 }
 
-const GROUPS = {
-  CAMPAIGNS: 1
-}
-
-module.exports = {
-  DATES,
-  GROUPS
-}
+module.exports = BinomConstants
