@@ -65,7 +65,7 @@ class Binom {
 
     if (dateRange) {
       const [ dateS, dateE ] = dateRange
-      
+
       const dateParams = {
         date: BinomConstants.dates.customDate
       }
@@ -82,6 +82,58 @@ class Binom {
 
     return fetch(`${this.apiURL}?${qs}`)
       .then(res => (res.json()))
+  }
+
+  updateCosts (params) {
+    const {
+      campId,
+      date,
+      dateRange,
+      timezone = 3,
+      tokenNumber,
+      tokenValue,
+      cost = 0,
+      cpc = 0
+    } = params;
+
+    if (typeof (campId) !== 'string' && typeof (campId) !== 'number')
+      throw new TypeError('CampId is not a string or number.');
+
+    if (!date && !dateRange)
+      throw new Error('Date settings undefined.');
+
+    if (!cost && !cpc)
+      throw new Error('Cost or CPC required.');
+
+    const queryParams = {
+      page: 'save_update_costs',
+      api_key: this.apiKey,
+      camp_id: campId,
+      token_number: 1,
+      token_value: 100
+    };
+
+    if (Array.isArray(dateRange) && dateRange.length === 2) {
+      Object.assign(queryParams, {
+        date: 12,
+        date_s: dateRange[0],
+        date_e: dateRange[1]
+      });
+    } else {
+      Object.assign(queryParams, { date });
+    }
+
+    timezone && Object.assign(queryParams, { timezone });
+    tokenNumber && Object.assign(queryParams, { token_number: tokenNumber });
+    tokenValue && Object.assign(queryParams, { token_value: tokenValue });
+
+    if (cost) Object.assign(queryParams, { cost });
+    else if (cpc) Object.assign(queryParams, { cpc });
+
+    const qs = querystring.stringify(queryParams);
+
+    return fetch(`${this.apiURL}?${qs}`)
+      .then(res => (res.json()));
   }
 }
 
