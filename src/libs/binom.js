@@ -108,9 +108,7 @@ class Binom {
     const queryParams = {
       page: 'save_update_costs',
       api_key: this.apiKey,
-      camp_id: campId,
-      token_number: 1,
-      token_value: 100
+      camp_id: campId
     };
 
     if (Array.isArray(dateRange) && dateRange.length === 2) {
