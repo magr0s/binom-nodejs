@@ -92,8 +92,8 @@ class Binom {
       timezone = 3,
       tokenNumber,
       tokenValue,
-      cost = 0,
-      cpc = 0
+      cost,
+      cpc
     } = params;
 
     if (typeof (campId) !== 'string' && typeof (campId) !== 'number')
@@ -101,9 +101,6 @@ class Binom {
 
     if (!date && !dateRange)
       throw new Error('Date settings undefined.');
-
-    if (!cost && !cpc)
-      throw new Error('Cost or CPC required.');
 
     const queryParams = {
       page: 'save_update_costs',
@@ -125,8 +122,9 @@ class Binom {
     tokenNumber && Object.assign(queryParams, { token_number: tokenNumber });
     tokenValue && Object.assign(queryParams, { token_value: tokenValue });
 
-    if (cost) Object.assign(queryParams, { cost });
-    else if (cpc) Object.assign(queryParams, { cpc });
+    if (typeof (cost) !== 'undefined') Object.assign(queryParams, { cost });
+    else if (typeof (cpc) !== 'undefined') Object.assign(queryParams, { cpc });
+    else throw new Error('Cost or CPC required.');
 
     const qs = querystring.stringify(queryParams);
 
