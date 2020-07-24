@@ -84,6 +84,11 @@ class Binom {
       .then(res => (res.json()))
   }
 
+  /**
+   *
+   * @param params
+   * @returns {*}
+   */
   updateCosts (params) {
     const {
       campId,
@@ -125,6 +130,21 @@ class Binom {
     if (typeof (cost) !== 'undefined') Object.assign(queryParams, { cost });
     else if (typeof (cpc) !== 'undefined') Object.assign(queryParams, { cpc });
     else throw new Error('Cost or CPC required.');
+
+    const qs = querystring.stringify(queryParams);
+
+    return fetch(`${this.apiURL}?${qs}`)
+      .then(res => (res.json()));
+  }
+
+  fetchCampaigns () {
+    const queryParams = {
+      page: 'Campaigns',
+      val_page: 'all',
+      api_key: this.apiKey,
+      status: BinomConstants.campaignStatus.all,
+      date: BinomConstants.dates.all
+    }
 
     const qs = querystring.stringify(queryParams);
 

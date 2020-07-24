@@ -71,13 +71,24 @@ const DATES = {
   yesterday: 2
 }
 
+const CAMPAIGN_STATUS = {
+  all: 'all',
+  active: 1,
+  withTraffic: 2,
+  deleted: 0
+}
+
 class BinomConstants {
   static get groups () {
-    return GROUPS
+    return GROUPS;
   }
 
   static get dates () {
-    return DATES
+    return DATES;
+  }
+
+  static get campaignStatus () {
+    return CAMPAIGN_STATUS;
   }
 }
 
